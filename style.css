@@ -147,11 +147,6 @@ p{ margin: 0; }
   display: flex; align-items: baseline; gap: 8px;
 }
 .logo-bracket{ color: var(--cyan); }
-.logo-sub{
-  font-family: var(--font-body); font-weight: 500; font-size: 11px;
-  color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.08em;
-}
-@media (max-width: 520px){ .logo-sub{ display: none; } }
 .nav-links{ display: flex; gap: 28px; }
 .nav-links a{
   font-family: var(--font-mono); font-size: 12.5px; color: var(--text-secondary);
@@ -209,7 +204,7 @@ p{ margin: 0; }
   margin-bottom: 18px; display: flex; align-items: center; gap: 8px;
 }
 .prompt{ color: var(--text-tertiary); }
-.eyebrow-out{ color: var(--text-tertiary); font-weight: 400; }
+
 .hero-name{
   font-size: clamp(2.6rem, 5.5vw, 4.4rem);
   line-height: 1.05;
@@ -299,20 +294,6 @@ p{ margin: 0; }
 .metric-label{ font-family: var(--font-mono); font-size: 9.5px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.04em; }
 .status-card-footer{ margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-soft); }
 
-.scroll-cue{
-  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  color: var(--text-tertiary); font-family: var(--font-mono); font-size: 10px;
-  letter-spacing: 0.1em; text-transform: uppercase;
-}
-.scroll-dot{ animation: scrollDot 1.8s ease-in-out infinite; }
-@keyframes scrollDot{
-  0%{ transform: translateY(0); opacity: 1; }
-  60%{ transform: translateY(8px); opacity: 0; }
-  61%{ transform: translateY(0); opacity: 0; }
-  100%{ transform: translateY(0); opacity: 1; }
-}
-
 @media (max-width: 900px){
   .hero-inner{ grid-template-columns: 1fr; gap: 48px; }
   .hero-card{ max-width: 380px; }
@@ -346,12 +327,8 @@ p{ margin: 0; }
 }
 .about-photo-wrap{ position: relative; }
 .about-photo{
-  border-radius: 14px; width: 100%; object-fit: cover;
+  border-radius: 14px; width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: top center;
   border: 1px solid var(--border); filter: grayscale(15%);
-}
-.about-photo-frame{
-  position: absolute; top: 16px; left: 16px; right: -16px; bottom: -16px;
-  border: 1px solid var(--cyan); border-radius: 14px; opacity: 0.35; z-index: -1;
 }
 .about-facts{
   margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px 28px;

@@ -65,28 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
     type();
   }
 
-  /* ---------- Live "days in DevOps" counter ---------- */
-  const uptimeCounter = document.getElementById('uptimeCounter');
-  if (uptimeCounter) {
-    // Career start date: DevOps Engineer Intern @ 360XpertSolutions
-    const startDate = new Date('2026-02-01T00:00:00');
-    const now = new Date();
-    const diffDays = Math.max(0, Math.floor((now - startDate) / (1000 * 60 * 60 * 24)));
-
-    let current = 0;
-    const duration = 900; // ms
-    const startTime = performance.now();
-
-    const animateCount = (t) => {
-      const progress = Math.min(1, (t - startTime) / duration);
-      current = Math.floor(progress * diffDays);
-      uptimeCounter.textContent = current;
-      if (progress < 1) requestAnimationFrame(animateCount);
-      else uptimeCounter.textContent = diffDays;
-    };
-    requestAnimationFrame(animateCount);
-  }
-
   /* ---------- Network SVG (ambient nodes + lines) ---------- */
   const svg = document.getElementById('networkSvg');
   if (svg && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

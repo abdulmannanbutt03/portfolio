@@ -1,8 +1,9 @@
 /* ============================================
    Abdul Mannan Butt — Portfolio
    Ambient 3D background: a glowing DevOps
-   infinity loop with a flowing CI/CD "pulse"
-   travelling around it. Subtle, non-distracting.
+   infinity loop with flowing CI/CD "pulses",
+   plus drifting container/node shapes.
+   Subtle, non-distracting, responsive.
    ============================================ */
 
 (function () {
@@ -11,14 +12,14 @@
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   let scene, camera, renderer;
-  let loopGroup, pulseA, pulseB, scatterPoints;
+  let loopGroup, pulseA, pulseB, scatterPoints, containers = [];
   let mouseX = 0, mouseY = 0;
   let width = window.innerWidth, height = window.innerHeight;
   const clock = new THREE.Clock();
 
   // Lemniscate of Bernoulli — the classic DevOps infinity symbol
-  const A = 190; // horizontal extent
-  const B = 100; // vertical extent
+  const A = 150; // horizontal extent
+  const B = 78;  // vertical extent
   function loopPoint(t, out) {
     const scale = 1 / (1 + Math.sin(t) * Math.sin(t));
     out.set(A * scale * Math.cos(t), B * scale * Math.sin(t) * Math.cos(t), 0);
@@ -29,7 +30,7 @@
     scene = new THREE.Scene();
 
     camera = new THREE.PerspectiveCamera(55, width / height, 0.1, 1000);
-    camera.position.set(0, 0, 300);
+    camera.position.set(0, 0, 320);
 
     renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
     renderer.setSize(width, height);
@@ -63,33 +64,54 @@
     const lineMat = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.55 });
     loopGroup.add(new THREE.Line(lineGeom, lineMat));
 
-    // Soft duplicate slightly behind for a glow-ish feel
     const glowMat = new THREE.LineBasicMaterial({ color: 0x2dd4bf, transparent: true, opacity: 0.12 });
     const glowLine = new THREE.Line(lineGeom.clone(), glowMat);
-    glowLine.scale.set(1.04, 1.04, 1);
+    glowLine.scale.set(1.05, 1.05, 1);
     loopGroup.add(glowLine);
 
-    // --- Small nodes marking "stages" around the loop (build/test/deploy...) ---
+    // --- "Stage" nodes around the loop (build/test/deploy...) ---
     const NODE_COUNT = 8;
-    const nodeGeom = new THREE.SphereGeometry(2.6, 12, 12);
+    const nodeGeom = new THREE.SphereGeometry(2.4, 12, 12);
     for (let i = 0; i < NODE_COUNT; i++) {
       const t = (i / NODE_COUNT) * Math.PI * 2;
       const p = loopPoint(t, new THREE.Vector3());
       const mixT = (Math.sin(t) + 1) / 2;
       const c = colorA.clone().lerp(colorB, mixT);
-      const nodeMat = new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: 0.55 });
+      const nodeMat = new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: 0.5 });
       const node = new THREE.Mesh(nodeGeom, nodeMat);
       node.position.copy(p);
       loopGroup.add(node);
     }
 
-    // --- Two bright pulses flowing around the loop (CI/CD "runs in flight") ---
-    const pulseGeom = new THREE.SphereGeometry(3.4, 16, 16);
-    const pulseMatA = new THREE.MeshBasicMaterial({ color: 0x2dd4bf, transparent: true, opacity: 0.9 });
-    const pulseMatB = new THREE.MeshBasicMaterial({ color: 0x8c86f0, transparent: true, opacity: 0.9 });
-    pulseA = new THREE.Mesh(pulseGeom, pulseMatA);
-    pulseB = new THREE.Mesh(pulseGeom, pulseMatB);
+    // --- Two bright pulses flowing around the loop (pipeline runs in flight) ---
+    const pulseGeom = new THREE.SphereGeometry(3.2, 16, 16);
+    pulseA = new THREE.Mesh(pulseGeom, new THREE.MeshBasicMaterial({ color: 0x2dd4bf, transparent: true, opacity: 0.9 }));
+    pulseB = new THREE.Mesh(pulseGeom, new THREE.MeshBasicMaterial({ color: 0x8c86f0, transparent: true, opacity: 0.9 }));
     loopGroup.add(pulseA, pulseB);
+
+    // --- Drifting wireframe "containers" (Docker crates) around the scene ---
+    const containerGeom = new THREE.BoxGeometry(10, 10, 10);
+    const containerColors = [0x2dd4bf, 0x8c86f0, 0xf0a93e];
+    for (let i = 0; i < 9; i++) {
+      const edges = new THREE.EdgesGeometry(containerGeom);
+      const mat = new THREE.LineBasicMaterial({
+        color: containerColors[i % containerColors.length],
+        transparent: true,
+        opacity: 0.22,
+      });
+      const box = new THREE.LineSegments(edges, mat);
+      box.position.set(
+        (Math.random() - 0.5) * 640,
+        (Math.random() - 0.5) * 380,
+        (Math.random() - 0.5) * 300 - 120
+      );
+      box.userData.rotSpeed = 0.05 + Math.random() * 0.1;
+      box.userData.driftSpeed = 0.04 + Math.random() * 0.06;
+      box.userData.driftOffset = Math.random() * Math.PI * 2;
+      box.userData.baseY = box.position.y;
+      scene.add(box);
+      containers.push(box);
+    }
 
     // --- Faint ambient scatter for depth ---
     const SCATTER_COUNT = 90;
@@ -101,14 +123,23 @@
     }
     const scatterGeom = new THREE.BufferGeometry();
     scatterGeom.setAttribute('position', new THREE.BufferAttribute(scatterPos, 3));
-    const scatterMat = new THREE.PointsMaterial({ color: 0x4fd1ff, size: 1.4, transparent: true, opacity: 0.28, sizeAttenuation: true });
+    const scatterMat = new THREE.PointsMaterial({ color: 0x4fd1ff, size: 1.4, transparent: true, opacity: 0.25, sizeAttenuation: true });
     scatterPoints = new THREE.Points(scatterGeom, scatterMat);
     scene.add(scatterPoints);
+
+    applyResponsiveScale();
 
     window.addEventListener('resize', onResize);
     window.addEventListener('mousemove', onMouseMove, { passive: true });
 
     animate();
+  }
+
+  // Keep the loop comfortably inside the viewport on narrow/short screens
+  function applyResponsiveScale() {
+    const refWidth = 1200;
+    const s = Math.max(0.55, Math.min(1, width / refWidth));
+    loopGroup.scale.setScalar(s);
   }
 
   function onResize() {
@@ -117,6 +148,7 @@
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
     renderer.setSize(width, height);
+    applyResponsiveScale();
   }
 
   function onMouseMove(e) {
@@ -131,8 +163,8 @@
     const elapsed = clock.getElapsedTime();
 
     // Gentle sway rather than a full spin, so the ∞ shape stays readable
-    loopGroup.rotation.y = Math.sin(elapsed * 0.12) * 0.35;
-    loopGroup.rotation.x = Math.sin(elapsed * 0.08) * 0.08;
+    loopGroup.rotation.y = Math.sin(elapsed * 0.12) * 0.3;
+    loopGroup.rotation.x = Math.sin(elapsed * 0.08) * 0.06;
 
     // Pulses travel around the lemniscate, offset from each other
     const t1 = (elapsed * 0.55) % (Math.PI * 2);
@@ -141,6 +173,13 @@
     pulseA.position.copy(tmpPos);
     loopPoint(t2, tmpPos);
     pulseB.position.copy(tmpPos);
+
+    // Drifting containers: slow tumble + gentle float
+    containers.forEach((box) => {
+      box.rotation.x += 0.003 * box.userData.rotSpeed * 10;
+      box.rotation.y += 0.004 * box.userData.rotSpeed * 10;
+      box.position.y = box.userData.baseY + Math.sin(elapsed * box.userData.driftSpeed + box.userData.driftOffset) * 14;
+    });
 
     scatterPoints.rotation.y += 0.0002;
 

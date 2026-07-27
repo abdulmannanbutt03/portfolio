@@ -6,6 +6,10 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  /* ---------- Footer year ---------- */
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
   /* ---------- Nav: scrolled state ---------- */
   const nav = document.getElementById('nav');
   const onScroll = () => {

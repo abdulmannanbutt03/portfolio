@@ -37,6 +37,10 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Resume
     </a>
+    <a class="btn btn-ghost nav-resume" href="Abdul_Mannan_Butt_CV.pdf" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      CV
+    </a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
       <span></span><span></span><span></span>
     </button>
@@ -66,6 +70,7 @@
       <div class="hero-cta">
         <a href="#projects" class="btn btn-primary">View Projects</a>
         <a href="Abdul_Mannan_Butt_Resume.pdf" target="_blank" rel="noopener" class="btn btn-outline">Download Resume</a>
+        <a href="Abdul_Mannan_Butt_CV.pdf" target="_blank" rel="noopener" class="btn btn-outline">Download CV</a>
       </div>
 
       <div class="hero-socials">
@@ -219,6 +224,27 @@
       <article class="project-card project-card-featured">
         <div class="project-top">
           <span class="mono-label accent-cyan">PERSONAL PROJECT</span>
+          <span class="project-status"><i class="dot dot-cyan"></i>Live dashboard</span>
+        </div>
+        <h3 class="project-title">CI/CD Pipeline Health Dashboard</h3>
+        <p class="project-desc">A real-time dashboard giving instant visibility into any public GitHub repository's pipeline health — no more clicking through ten pages of Actions runs.</p>
+        <ul class="project-highlights">
+          <li>Surfaces DORA metrics: success rate, failure trends, build durations</li>
+          <li>Pulls live data straight from the GitHub REST API</li>
+          <li>Per-job breakdown for the last 30 pipeline runs</li>
+        </ul>
+        <div class="project-tags">
+          <span class="chip">React</span><span class="chip">GitHub API</span><span class="chip">Recharts</span><span class="chip">Vercel</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github-actions-visualizer-omega.vercel.app" target="_blank" rel="noopener" class="project-link">Live Demo <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg></a>
+          <a href="https://github.com/abdulmannanbutt03/professional-ci-cd" target="_blank" rel="noopener" class="project-link">View GitHub <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg></a>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-top">
+          <span class="mono-label accent-amber">PERSONAL PROJECT</span>
           <span class="project-status"><i class="dot dot-green"></i>11 containers live</span>
         </div>
         <h3 class="project-title">Distributed Task Manager</h3>
@@ -253,28 +279,7 @@
           <span class="chip">Terraform</span><span class="chip">EKS</span><span class="chip">RDS</span><span class="chip">EC2</span><span class="chip">React</span><span class="chip">Node.js</span>
         </div>
         <div class="project-links">
-          <a href="https://github.com/abdulmannanbutt03" target="_blank" rel="noopener" class="project-link">View GitHub <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg></a>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-top">
-          <span class="mono-label accent-amber">PERSONAL PROJECT</span>
-          <span class="project-status"><i class="dot dot-cyan"></i>Live dashboard</span>
-        </div>
-        <h3 class="project-title">CI/CD Pipeline Health Dashboard</h3>
-        <p class="project-desc">A real-time dashboard giving instant visibility into any public GitHub repository's pipeline health — no more clicking through ten pages of Actions runs.</p>
-        <ul class="project-highlights">
-          <li>Surfaces DORA metrics: success rate, failure trends, build durations</li>
-          <li>Pulls live data straight from the GitHub REST API</li>
-          <li>Per-job breakdown for the last 30 pipeline runs</li>
-        </ul>
-        <div class="project-tags">
-          <span class="chip">React</span><span class="chip">GitHub API</span><span class="chip">Recharts</span><span class="chip">Vercel</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github-actions-visualizer-omega.vercel.app" target="_blank" rel="noopener" class="project-link">Live Demo <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg></a>
-          <a href="https://github.com/abdulmannanbutt03" target="_blank" rel="noopener" class="project-link">View GitHub <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg></a>
+          <a href="https://github.com/abdulmannanbutt03/ecommerce-devops" target="_blank" rel="noopener" class="project-link">View GitHub <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg></a>
         </div>
       </article>
 
@@ -367,7 +372,6 @@
 <footer class="footer">
   <div class="section-inner footer-inner">
     <span class="mono-label muted">© <span id="year"></span> Abdul Mannan Butt — built &amp; deployed with Terraform-grade care.</span>
-    <span class="mono-label muted status-live"><i class="dot dot-green"></i>All systems operational</span>
   </div>
 </footer>
 

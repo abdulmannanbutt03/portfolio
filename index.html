@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abdul Mannan Butt — DevOps Engineer</title>
+<meta name="description" content="Abdul Mannan Butt — DevOps Engineer specializing in AWS, Kubernetes, Terraform, CI/CD and GitOps. Building production-grade cloud infrastructure.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== Ambient background canvas (3D) ===== -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- ===== Custom cursor pulse (subtle) ===== -->
+<div class="grid-overlay" aria-hidden="true"></div>
+
+<!-- ===== NAV ===== -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="logo">
+      <span class="logo-bracket">&lt;</span>AM<span class="logo-bracket">/&gt;</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#about"><span class="nav-num">01</span>About</a>
+      <a href="#experience"><span class="nav-num">02</span>Experience</a>
+      <a href="#projects"><span class="nav-num">03</span>Projects</a>
+      <a href="#skills"><span class="nav-num">04</span>Skills</a>
+      <a href="#contact"><span class="nav-num">05</span>Contact</a>
+    </nav>
+    <a class="btn btn-ghost nav-resume" href="assets/Abdul_Mannan_Butt_Resume.pdf" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Resume
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="top">
+  <svg class="network-svg" id="networkSvg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+
+  <div class="hero-inner">
+    <div class="hero-text">
+      <p class="eyebrow"><span class="prompt">$</span> whoami</p>
+      <h1 class="hero-name">Abdul&nbsp;Mannan<br>Butt</h1>
+      <p class="hero-role">
+        <span class="type-target" id="typeTarget"></span><span class="type-cursor">|</span>
+      </p>
+      <p class="hero-desc">I design, automate and ship <strong>production-grade cloud infrastructure</strong> — from Terraform-provisioned AWS environments to self-healing Kubernetes clusters with full CI/CD and observability baked in.</p>
+
+      <div class="hero-tags">
+        <span class="tag tag-cyan"><i class="dot dot-cyan"></i>AWS</span>
+        <span class="tag tag-violet"><i class="dot dot-violet"></i>Kubernetes</span>
+        <span class="tag tag-amber"><i class="dot dot-amber"></i>Terraform</span>
+        <span class="tag tag-green"><i class="dot dot-green"></i>CI/CD · GitOps</span>
+      </div>
+
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="assets/Abdul_Mannan_Butt_Resume.pdf" target="_blank" rel="noopener" class="btn btn-outline">Download Resume</a>
+      </div>
+
+      <div class="hero-socials">
+        <a href="https://www.linkedin.com/in/abdulmannanbutt03" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM7.114 20.452H3.558V9h3.556v11.452z"/></svg>
+        </a>
+        <a href="mailto:abdulmannanbutt03@gmail.com" aria-label="Email">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6c0-1.1-.9-2-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+        <a href="https://github.com/" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.34-1.28-1.7-1.28-1.7-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.72-1.54-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.06 11.06 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.8 1.18 1.83 1.18 3.09 0 4.43-2.7 5.4-5.28 5.69.42.36.78 1.08.78 2.18 0 1.57-.02 2.84-.02 3.23 0 .3.2.66.79.55A10.52 10.52 0 0 0 23.5 12c0-6.35-5.15-11.5-11.5-11.5z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-card" id="statusCard">
+      <div class="status-card-glow"></div>
+      <div class="status-card-header">
+        <span class="status-dot"></span>
+        <span class="mono-label">STATUS: OPEN_TO_WORK</span>
+      </div>
+      <div class="status-photo">
+        <img src="assets/headshot.jpeg" alt="Abdul Mannan Butt">
+      </div>
+      <div class="status-body">
+        <p class="status-name">Abdul Mannan Butt</p>
+        <p class="status-role">DevOps Engineer · Karachi, PK</p>
+        <div class="status-metrics">
+          <div class="metric">
+            <span class="metric-value" id="uptimeCounter">0</span>
+            <span class="metric-label">days in DevOps</span>
+          </div>
+          <div class="metric">
+            <span class="metric-value">3</span>
+            <span class="metric-label">shipped projects</span>
+          </div>
+          <div class="metric">
+            <span class="metric-value">&lt;90s</span>
+            <span class="metric-label">CI/CD pipeline</span>
+          </div>
+        </div>
+      </div>
+      <div class="status-card-footer">
+        <span class="mono-label muted">// 360XpertSolutions · Techzone Learning</span>
+      </div>
+    </div>
+  </div>
+
+  <a href="#about" class="scroll-cue" aria-label="Scroll down">
+    <span>scroll</span>
+    <svg width="14" height="20" viewBox="0 0 14 20"><rect x="1" y="1" width="12" height="18" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/><circle class="scroll-dot" cx="7" cy="6" r="2" fill="currentColor"/></svg>
+  </a>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section class="section" id="about">
+  <div class="section-inner">
+    <p class="section-eyebrow"><span class="idx">01</span> About</p>
+    <div class="about-grid">
+      <div class="about-photo-wrap">
+        <img src="assets/hero-photo.jpeg" alt="Abdul Mannan Butt, DevOps Engineer" class="about-photo">
+        <div class="about-photo-frame"></div>
+      </div>
+      <div class="about-content">
+        <h2 class="h2">Turning fragile deployments into <span class="highlight">boring, reliable ones.</span></h2>
+        <p class="body-text">I'm a DevOps Engineer currently interning at <strong>360XpertSolutions</strong>, where I work across the full stack of cloud infrastructure — provisioning AWS environments with Terraform, orchestrating workloads on Kubernetes, and wiring up CI/CD pipelines that actually catch problems before they ship. I also teach DevOps part-time at <strong>Techzone Learning</strong>, which keeps me sharp on explaining the "why" behind every tool, not just the "how."</p>
+        <p class="body-text">I'm in my 7th semester of a Bachelor's in Software Engineering at Bahria University, Karachi — balancing coursework with real infrastructure work, because the fastest way I've found to learn DevOps is to break things in production-like environments and fix them properly.</p>
+
+        <div class="about-facts">
+          <div class="fact">
+            <span class="fact-label mono-label">Location</span>
+            <span class="fact-value">Karachi, Pakistan</span>
+          </div>
+          <div class="fact">
+            <span class="fact-label mono-label">Education</span>
+            <span class="fact-value">BSE, Bahria University — Exp. Jun 2027</span>
+          </div>
+          <div class="fact">
+            <span class="fact-label mono-label">Focus</span>
+            <span class="fact-value">Cloud Infra · GitOps · SRE</span>
+          </div>
+          <div class="fact">
+            <span class="fact-label mono-label">Also</span>
+            <span class="fact-value">Founder, Bahria Blaze Events</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXPERIENCE ===== -->
+<section class="section section-alt" id="experience">
+  <div class="section-inner">
+    <p class="section-eyebrow"><span class="idx">02</span> Experience</p>
+    <h2 class="h2 section-title">Deployment history</h2>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-marker"><span class="commit-dot commit-dot-active"></span></div>
+        <div class="timeline-card">
+          <div class="timeline-card-top">
+            <div>
+              <h3 class="timeline-role">DevOps Engineer Intern</h3>
+              <p class="timeline-org">360XpertSolutions · Karachi, Pakistan</p>
+            </div>
+            <span class="timeline-date">Feb 2026 — Present</span>
+          </div>
+          <ul class="timeline-list">
+            <li>Architected AWS VPC environments — public/private subnets, NAT gateways, peering, endpoints, and PrivateLink.</li>
+            <li>Provisioned EC2, EKS, ECS, RDS, Lambda, S3, CloudFront and Route 53 entirely as code using Terraform.</li>
+            <li>Built multi-stage Jenkins and GitHub Actions pipelines with SonarQube quality gates and Trivy/Snyk scanning.</li>
+            <li>Implemented GitOps delivery with ArgoCD and Flux, packaging apps as Helm charts for Kubernetes.</li>
+            <li>Stood up observability stacks with Prometheus, Grafana, Datadog, New Relic and the ELK stack.</li>
+          </ul>
+          <div class="timeline-tags">
+            <span class="chip">AWS</span><span class="chip">Terraform</span><span class="chip">Kubernetes</span><span class="chip">ArgoCD</span><span class="chip">Jenkins</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-marker"><span class="commit-dot commit-dot-active"></span></div>
+        <div class="timeline-card">
+          <div class="timeline-card-top">
+            <div>
+              <h3 class="timeline-role">DevOps Faculty</h3>
+              <p class="timeline-org">Techzone Learning · Karachi, Pakistan</p>
+            </div>
+            <span class="timeline-date">Jul 2026 — Present</span>
+          </div>
+          <ul class="timeline-list">
+            <li>Design and deliver weekly DevOps training sessions covering CI/CD, containerization and version control.</li>
+            <li>Mentor students on practical, industry-relevant DevOps workflows beyond textbook theory.</li>
+            <li>Bridge the gap between theoretical concepts and real-world implementation for early-career engineers.</li>
+          </ul>
+          <div class="timeline-tags">
+            <span class="chip">Mentoring</span><span class="chip">DevOps Training</span><span class="chip">CI/CD</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROJECTS ===== -->
+<section class="section" id="projects">
+  <div class="section-inner">
+    <p class="section-eyebrow"><span class="idx">03</span> Projects</p>
+    <h2 class="h2 section-title">Things I've shipped</h2>
+
+    <div class="projects-grid">
+
+      <article class="project-card project-card-featured">
+        <div class="project-top">
+          <span class="mono-label accent-cyan">PERSONAL PROJECT</span>
+          <span class="project-status"><i class="dot dot-green"></i>11 containers live</span>
+        </div>
+        <h3 class="project-title">Distributed Task Manager</h3>
+        <p class="project-desc">A production-grade microservices system built from scratch: three independent services behind an Nginx load balancer, communicating asynchronously over RabbitMQ, with Redis caching and MongoDB as the primary store.</p>
+        <ul class="project-highlights">
+          <li>Round-robin load balancing across multiple service instances</li>
+          <li>GitHub Actions pipeline — test, build, Trivy scan — in under 90 seconds</li>
+          <li>Full observability via Prometheus + Grafana across all instances</li>
+        </ul>
+        <div class="project-tags">
+          <span class="chip">Docker</span><span class="chip">Node.js</span><span class="chip">RabbitMQ</span><span class="chip">Redis</span><span class="chip">MongoDB</span><span class="chip">Nginx</span><span class="chip">Prometheus</span><span class="chip">Grafana</span>
+        </div>
+        <div class="project-links">
+          <a href="#" class="project-link">View Code <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg></a>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-top">
+          <span class="mono-label accent-violet">TEAM PROJECT</span>
+          <span class="project-status"><i class="dot dot-amber"></i>AWS · Terraform</span>
+        </div>
+        <h3 class="project-title">E-Commerce Platform — AWS Infrastructure</h3>
+        <p class="project-desc">Full-stack e-commerce platform with complete infrastructure owned end-to-end. My role: entire AWS environment as code.</p>
+        <ul class="project-highlights">
+          <li>VPC with public/private subnets, EKS cluster, RDS PostgreSQL, S3, ECR, IAM — all via Terraform</li>
+          <li>Branch-protected GitHub workflow (main / dev / feature)</li>
+          <li>Node.js + React stack deployed to EC2 with PM2, SSL to RDS</li>
+        </ul>
+        <div class="project-tags">
+          <span class="chip">Terraform</span><span class="chip">EKS</span><span class="chip">RDS</span><span class="chip">EC2</span><span class="chip">React</span><span class="chip">Node.js</span>
+        </div>
+        <div class="project-links">
+          <a href="#" class="project-link">View Code <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg></a>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-top">
+          <span class="mono-label accent-amber">PERSONAL PROJECT</span>
+          <span class="project-status"><i class="dot dot-cyan"></i>Live dashboard</span>
+        </div>
+        <h3 class="project-title">CI/CD Pipeline Health Dashboard</h3>
+        <p class="project-desc">A real-time dashboard giving instant visibility into any public GitHub repository's pipeline health — no more clicking through ten pages of Actions runs.</p>
+        <ul class="project-highlights">
+          <li>Surfaces DORA metrics: success rate, failure trends, build durations</li>
+          <li>Pulls live data straight from the GitHub REST API</li>
+          <li>Per-job breakdown for the last 30 pipeline runs</li>
+        </ul>
+        <div class="project-tags">
+          <span class="chip">React</span><span class="chip">GitHub API</span><span class="chip">Recharts</span><span class="chip">Vercel</span>
+        </div>
+        <div class="project-links">
+          <a href="#" class="project-link">Live Demo <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg></a>
+          <a href="#" class="project-link">View Code <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg></a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== SKILLS ===== -->
+<section class="section section-alt" id="skills">
+  <div class="section-inner">
+    <p class="section-eyebrow"><span class="idx">04</span> Skills</p>
+    <h2 class="h2 section-title">The stack</h2>
+
+    <div class="skills-grid">
+
+      <div class="skill-panel">
+        <div class="skill-panel-head"><span class="panel-dot dot-cyan"></span>Cloud & IaC</div>
+        <div class="skill-tags">
+          <span class="chip">AWS VPC</span><span class="chip">EC2</span><span class="chip">EKS</span><span class="chip">ECS</span><span class="chip">IAM</span><span class="chip">S3</span><span class="chip">RDS</span><span class="chip">Lambda</span><span class="chip">CloudFront</span><span class="chip">Route 53</span><span class="chip">Terraform</span>
+        </div>
+      </div>
+
+      <div class="skill-panel">
+        <div class="skill-panel-head"><span class="panel-dot dot-violet"></span>Containers & Orchestration</div>
+        <div class="skill-tags">
+          <span class="chip">Docker</span><span class="chip">Podman</span><span class="chip">Kubernetes</span><span class="chip">Helm</span><span class="chip">ArgoCD</span><span class="chip">Flux</span><span class="chip">GitOps</span><span class="chip">Nomad</span>
+        </div>
+      </div>
+
+      <div class="skill-panel">
+        <div class="skill-panel-head"><span class="panel-dot dot-amber"></span>CI/CD & Security</div>
+        <div class="skill-tags">
+          <span class="chip">Jenkins</span><span class="chip">GitHub Actions</span><span class="chip">Git</span><span class="chip">SonarQube</span><span class="chip">Trivy</span><span class="chip">Snyk</span>
+        </div>
+      </div>
+
+      <div class="skill-panel">
+        <div class="skill-panel-head"><span class="panel-dot dot-green"></span>Monitoring & Observability</div>
+        <div class="skill-tags">
+          <span class="chip">Prometheus</span><span class="chip">Grafana</span><span class="chip">Datadog</span><span class="chip">New Relic</span><span class="chip">ELK Stack</span>
+        </div>
+      </div>
+
+      <div class="skill-panel">
+        <div class="skill-panel-head"><span class="panel-dot dot-cyan"></span>Automation & Networking</div>
+        <div class="skill-tags">
+          <span class="chip">Ansible</span><span class="chip">Bash</span><span class="chip">Linux</span><span class="chip">Nginx</span><span class="chip">Caddy</span><span class="chip">Apache</span><span class="chip">Tailscale VPN</span><span class="chip">Samba</span>
+        </div>
+      </div>
+
+      <div class="skill-panel">
+        <div class="skill-panel-head"><span class="panel-dot dot-violet"></span>Databases</div>
+        <div class="skill-tags">
+          <span class="chip">PostgreSQL</span><span class="chip">MongoDB</span><span class="chip">Redis</span><span class="chip">SQL</span><span class="chip">NoSQL</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="section contact-section" id="contact">
+  <div class="section-inner">
+    <p class="section-eyebrow"><span class="idx">05</span> Contact</p>
+    <h2 class="h2 contact-title">Let's build something <span class="highlight">reliable</span>.</h2>
+    <p class="body-text contact-sub">Open to DevOps, Cloud Infrastructure and SRE opportunities. Reach out — I usually reply within a day.</p>
+
+    <div class="contact-grid">
+      <a href="mailto:abdulmannanbutt03@gmail.com" class="contact-card">
+        <span class="mono-label">EMAIL</span>
+        <span class="contact-value">abdulmannanbutt03@gmail.com</span>
+      </a>
+      <a href="tel:+923225588095" class="contact-card">
+        <span class="mono-label">PHONE</span>
+        <span class="contact-value">+92 322 5588095</span>
+      </a>
+      <a href="https://www.linkedin.com/in/abdulmannanbutt03" target="_blank" rel="noopener" class="contact-card">
+        <span class="mono-label">LINKEDIN</span>
+        <span class="contact-value">/in/abdulmannanbutt03</span>
+      </a>
+      <div class="contact-card contact-card-static">
+        <span class="mono-label">LOCATION</span>
+        <span class="contact-value">Karachi, Pakistan</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="section-inner footer-inner">
+    <span class="mono-label muted">© <span id="year"></span> Abdul Mannan Butt — built &amp; deployed with Terraform-grade care.</span>
+    <span class="mono-label muted status-live"><i class="dot dot-green"></i>All systems operational</span>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+<script src="js/three-scene.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

@@ -154,10 +154,18 @@
     animate();
   }
 
-  // Keep the loop comfortably inside the viewport on narrow/short screens
+  // Keep the loop comfortably inside the viewport on any screen size,
+  // by computing exactly how much world-space is visible at its depth.
   function applyResponsiveScale() {
-    const refWidth = 1200;
-    const s = Math.max(0.55, Math.min(1, width / refWidth));
+    const depth = camera.position.z - loopGroup.position.z; // distance from camera to loop
+    const vFovRad = (camera.fov * Math.PI) / 180;
+    const visibleHalfHeight = depth * Math.tan(vFovRad / 2);
+    const visibleHalfWidth = visibleHalfHeight * camera.aspect;
+
+    const margin = 0.72; // leave breathing room so it never touches the edges
+    const scaleForWidth = (visibleHalfWidth * margin) / A;
+    const scaleForHeight = (visibleHalfHeight * margin) / B;
+    const s = Math.max(0.32, Math.min(1, scaleForWidth, scaleForHeight));
     loopGroup.scale.setScalar(s);
   }
 

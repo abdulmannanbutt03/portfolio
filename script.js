@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'DevOps Engineer',
     'Cloud Infrastructure Engineer',
     'Kubernetes & Terraform',
+    'DevOps Educator',
     'CI/CD · GitOps'
   ];
   if (typeTarget) {

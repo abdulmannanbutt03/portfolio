@@ -26,6 +26,27 @@
     return out;
   }
 
+  // Place icons in the margins around the edges of the screen, leaving the
+  // central "reading column" clear so page text is never covered.
+  function edgePosition(depthAbs) {
+    const vFovRad = (camera.fov * Math.PI) / 180;
+    const halfH = depthAbs * Math.tan(vFovRad / 2);
+    const halfW = halfH * camera.aspect;
+    const safe = 0.62; // fraction of half-extent kept clear in the center
+    const side = Math.random() < 0.5 ? -1 : 1;
+    let x, y;
+    if (Math.random() < 0.5) {
+      x = side * (halfW * safe + Math.random() * halfW * (1 - safe) * 0.85);
+      y = (Math.random() - 0.5) * halfH * 1.7;
+      y = Math.max(-halfH * 0.9, Math.min(halfH * 0.9, y));
+    } else {
+      y = side * (halfH * safe + Math.random() * halfH * (1 - safe) * 0.85);
+      x = (Math.random() - 0.5) * halfW * 1.7;
+      x = Math.max(-halfW * 0.9, Math.min(halfW * 0.9, x));
+    }
+    return { x, y };
+  }
+
   function init() {
     scene = new THREE.Scene();
 
@@ -211,59 +232,34 @@
       ctx.restore();
     }
 
-    function makeTagSprite(label, colorHex) {
+    // Icon only — no text, no background chip, so it never competes with page copy
+    function makeIconSprite(label, colorHex) {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      const sf = 6; // supersample for crisp edges
-      const fontPx = 20 * sf;
-      ctx.font = `600 ${fontPx}px "JetBrains Mono", monospace`;
-      const textWidth = ctx.measureText(label).width;
-
-      const iconSize = 34 * sf;
-      const padX = 20 * sf, padY = 14 * sf, gap = 12 * sf;
-      canvas.width = iconSize + gap + textWidth + padX * 2;
-      canvas.height = Math.max(iconSize, fontPx) + padY * 2;
-
-      const w = canvas.width, h = canvas.height, r = h / 2;
-      ctx.beginPath();
-      ctx.moveTo(r, 0);
-      ctx.arcTo(w, 0, w, h, r);
-      ctx.arcTo(w, h, 0, h, r);
-      ctx.arcTo(0, h, 0, 0, r);
-      ctx.arcTo(0, 0, w, 0, r);
-      ctx.closePath();
-      ctx.fillStyle = 'rgba(13,17,23,0.6)';
-      ctx.fill();
-      ctx.lineWidth = 3 * sf;
-      ctx.strokeStyle = colorHex;
-      ctx.stroke();
-
-      drawIcon(ctx, label, padX + iconSize / 2, h / 2, iconSize / 2 * 0.7, colorHex);
-
-      ctx.font = `600 ${fontPx}px "JetBrains Mono", monospace`;
-      ctx.fillStyle = colorHex;
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(label, padX + iconSize + gap, h / 2 + 2 * sf);
+      const size = 160; // supersampled square canvas
+      canvas.width = size;
+      canvas.height = size;
+      drawIcon(ctx, label, size / 2, size / 2, size * 0.42, colorHex);
 
       const texture = new THREE.CanvasTexture(canvas);
       texture.minFilter = THREE.LinearFilter;
-      texture.anisotropy = 4;
-      const mat = new THREE.SpriteMaterial({ map: texture, transparent: true, opacity: 0.92 });
+      const mat = new THREE.SpriteMaterial({ map: texture, transparent: true, opacity: 0.42, depthWrite: false });
       const sprite = new THREE.Sprite(mat);
-      const aspect = canvas.width / canvas.height;
-      const baseHeight = 17;
-      sprite.scale.set(baseHeight * aspect, baseHeight, 1);
+      const baseSize = 15;
+      sprite.scale.set(baseSize, baseSize, 1);
       return sprite;
     }
 
+    // Place icons in the margins around the edges of the screen, leaving the
+    // central "reading column" clear so page text is never covered.
+
     toolTags.forEach((tool) => {
-      const sprite = makeTagSprite(tool.label, tool.color);
-      sprite.position.set(
-        (Math.random() - 0.5) * 640,
-        (Math.random() - 0.5) * 380,
-        (Math.random() - 0.5) * 260 - 100
-      );
+      const sprite = makeIconSprite(tool.label, tool.color);
+      const z = (Math.random() - 0.5) * 220 - 140;
+      const depthAbs = camera.position.z - z;
+      const { x, y } = edgePosition(depthAbs);
+      sprite.position.set(x, y, z);
+      sprite.userData.depthAbs = depthAbs;
       sprite.userData.driftSpeed = 0.04 + Math.random() * 0.06;
       sprite.userData.driftOffset = Math.random() * Math.PI * 2;
       sprite.userData.bobSpeed = 0.03 + Math.random() * 0.05;
@@ -318,6 +314,12 @@
     camera.updateProjectionMatrix();
     renderer.setSize(width, height);
     applyResponsiveScale();
+
+    containers.forEach((sprite) => {
+      const { x, y } = edgePosition(sprite.userData.depthAbs);
+      sprite.userData.baseX = x;
+      sprite.userData.baseY = y;
+    });
   }
 
   function onMouseMove(e) {

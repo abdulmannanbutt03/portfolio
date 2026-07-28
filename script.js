@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         typeTarget.textContent = current.slice(0, charIndex);
         if (charIndex === current.length) {
           deleting = true;
-          setTimeout(type, 1600);
+          setTimeout(type, 1100);
           return;
         }
       } else {
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
           roleIndex = (roleIndex + 1) % roles.length;
         }
       }
-      setTimeout(type, deleting ? 35 : 65);
+      setTimeout(type, deleting ? 24 : 48);
     };
     type();
   }

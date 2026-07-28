@@ -6,6 +6,16 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  /* ---------- Cache-bust Resume/CV PDF links ----------
+     Browsers (and phones especially) aggressively cache PDFs by URL.
+     Since the filename never changes when the file is updated, appending
+     a fresh version each page load guarantees visitors always get the
+     current file instead of a stale cached copy. */
+  document.querySelectorAll('a[href$=".pdf"]').forEach(link => {
+    const base = link.getAttribute('href').split('?')[0];
+    link.setAttribute('href', `${base}?v=${Date.now()}`);
+  });
+
   /* ---------- Footer year ---------- */
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();

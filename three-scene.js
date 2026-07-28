@@ -12,7 +12,7 @@
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   let scene, camera, renderer;
-  let loopGroup, pulseA, pulseB, scatterPoints, containers = [];
+  let loopGroup, pulseA, pulseB, scatterPoints, containers = [], gearRing, gearRing2;
   let mouseX = 0, mouseY = 0;
   let width = window.innerWidth, height = window.innerHeight;
   const clock = new THREE.Clock();
@@ -61,13 +61,17 @@
     const lineGeom = new THREE.BufferGeometry();
     lineGeom.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
     lineGeom.setAttribute('color', new THREE.BufferAttribute(lineColors, 3));
-    const lineMat = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.55 });
+    const lineMat = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.85 });
     loopGroup.add(new THREE.Line(lineGeom, lineMat));
 
-    const glowMat = new THREE.LineBasicMaterial({ color: 0x2dd4bf, transparent: true, opacity: 0.12 });
+    const glowMat = new THREE.LineBasicMaterial({ color: 0x2dd4bf, transparent: true, opacity: 0.22 });
     const glowLine = new THREE.Line(lineGeom.clone(), glowMat);
     glowLine.scale.set(1.05, 1.05, 1);
     loopGroup.add(glowLine);
+    const glowLine2 = new THREE.Line(lineGeom.clone(), glowMat.clone());
+    glowLine2.scale.set(1.1, 1.1, 1);
+    glowLine2.material.opacity = 0.12;
+    loopGroup.add(glowLine2);
 
     // --- "Stage" nodes around the loop (build/test/deploy...) ---
     const NODE_COUNT = 8;
@@ -77,11 +81,26 @@
       const p = loopPoint(t, new THREE.Vector3());
       const mixT = (Math.sin(t) + 1) / 2;
       const c = colorA.clone().lerp(colorB, mixT);
-      const nodeMat = new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: 0.5 });
+      const nodeMat = new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: 0.85 });
       const node = new THREE.Mesh(nodeGeom, nodeMat);
       node.position.copy(p);
       loopGroup.add(node);
     }
+
+    // --- Automation "gear ring" — a slowly turning torus, evoking CI/CD automation ---
+    const ringGeom = new THREE.TorusGeometry(46, 1.4, 8, 48);
+    const ringMat = new THREE.MeshBasicMaterial({ color: 0xf0a93e, transparent: true, opacity: 0.28, wireframe: true });
+    gearRing = new THREE.Mesh(ringGeom, ringMat);
+    gearRing.position.set(-190, -60, -30);
+    gearRing.rotation.x = Math.PI / 2.4;
+    scene.add(gearRing);
+
+    const ringGeom2 = new THREE.TorusGeometry(30, 1, 8, 40);
+    const ringMat2 = new THREE.MeshBasicMaterial({ color: 0x2dd4bf, transparent: true, opacity: 0.24, wireframe: true });
+    gearRing2 = new THREE.Mesh(ringGeom2, ringMat2);
+    gearRing2.position.set(210, 90, -60);
+    gearRing2.rotation.x = Math.PI / 3;
+    scene.add(gearRing2);
 
     // --- Two bright pulses flowing around the loop (pipeline runs in flight) ---
     const pulseGeom = new THREE.SphereGeometry(3.2, 16, 16);
@@ -97,7 +116,7 @@
       const mat = new THREE.LineBasicMaterial({
         color: containerColors[i % containerColors.length],
         transparent: true,
-        opacity: 0.22,
+        opacity: 0.32,
       });
       const box = new THREE.LineSegments(edges, mat);
       box.position.set(
@@ -182,6 +201,8 @@
     });
 
     scatterPoints.rotation.y += 0.0002;
+    gearRing.rotation.z += 0.0025;
+    gearRing2.rotation.z -= 0.0018;
 
     camera.position.x += (mouseX * 14 - camera.position.x) * 0.02;
     camera.position.y += (-mouseY * 14 - camera.position.y) * 0.02;

@@ -121,19 +121,110 @@
       { label: 'nginx', color: '#2dd4bf' },
     ];
 
+    // Simple, generic monoline glyphs — evoke each tool without reproducing
+    // any trademarked logo artwork. Drawn centered at (0,0) with radius ~1.
+    const iconDrawers = {
+      git(ctx) {
+        ctx.beginPath(); ctx.moveTo(-0.55, 0.55); ctx.lineTo(0.55, -0.55); ctx.stroke();
+        [[-0.55, 0.55], [0.15, -0.15], [0.55, -0.55]].forEach(([x, y]) => {
+          ctx.beginPath(); ctx.arc(x, y, 0.16, 0, Math.PI * 2); ctx.fill();
+        });
+      },
+      docker(ctx) {
+        const s = 0.36;
+        [[-0.4, 0], [0, 0], [0.4, 0], [0, -0.42], [0.4, -0.42]].forEach(([x, y]) => {
+          ctx.strokeRect(x - s / 2, y - s / 2, s, s);
+        });
+        ctx.beginPath(); ctx.moveTo(-0.7, 0.42); ctx.quadraticCurveTo(0, 0.85, 0.75, 0.4); ctx.stroke();
+      },
+      k8s(ctx) {
+        ctx.beginPath(); ctx.arc(0, 0, 0.62, 0, Math.PI * 2); ctx.stroke();
+        for (let i = 0; i < 7; i++) {
+          const a = (i / 7) * Math.PI * 2 - Math.PI / 2;
+          ctx.beginPath();
+          ctx.moveTo(Math.cos(a) * 0.2, Math.sin(a) * 0.2);
+          ctx.lineTo(Math.cos(a) * 0.62, Math.sin(a) * 0.62);
+          ctx.stroke();
+        }
+        ctx.beginPath(); ctx.arc(0, 0, 0.18, 0, Math.PI * 2); ctx.fill();
+      },
+      terraform(ctx) {
+        const s = 0.34;
+        [[-0.36, -0.2], [0.05, -0.42], [0.36, -0.2], [0.05, 0.28]].forEach(([x, y]) => {
+          ctx.save(); ctx.translate(x, y); ctx.rotate(Math.PI / 4);
+          ctx.strokeRect(-s / 2, -s / 2, s, s);
+          ctx.restore();
+        });
+      },
+      aws(ctx) {
+        ctx.beginPath();
+        ctx.moveTo(-0.65, 0.1);
+        ctx.quadraticCurveTo(-0.65, -0.55, 0, -0.55);
+        ctx.quadraticCurveTo(0.65, -0.55, 0.65, 0.1);
+        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(-0.55, 0.42); ctx.quadraticCurveTo(0, 0.75, 0.55, 0.42); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0.4, 0.3); ctx.lineTo(0.55, 0.42); ctx.lineTo(0.42, 0.55); ctx.stroke();
+      },
+      jenkins(ctx) {
+        ctx.beginPath(); ctx.arc(0, -0.05, 0.6, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.arc(-0.2, -0.1, 0.07, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(0.2, -0.1, 0.07, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(0, 0.05, 0.28, 0.15 * Math.PI, 0.85 * Math.PI); ctx.stroke();
+      },
+      ansible(ctx) {
+        ctx.beginPath(); ctx.arc(0, 0, 0.6, 0, Math.PI * 2); ctx.stroke();
+        for (let i = 0; i < 3; i++) {
+          const a = (i / 3) * Math.PI * 2 - Math.PI / 2;
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.lineTo(Math.cos(a) * 0.6, Math.sin(a) * 0.6);
+          ctx.stroke();
+        }
+        ctx.beginPath(); ctx.arc(0, 0, 0.12, 0, Math.PI * 2); ctx.fill();
+      },
+      linux(ctx) {
+        ctx.beginPath(); ctx.ellipse(0, -0.05, 0.42, 0.55, 0, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.arc(-0.16, -0.15, 0.07, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(0.16, -0.15, 0.07, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.moveTo(-0.18, 0.55); ctx.lineTo(-0.3, 0.75); ctx.moveTo(0.18, 0.55); ctx.lineTo(0.3, 0.75); ctx.stroke();
+      },
+      nginx(ctx) {
+        ctx.beginPath();
+        ctx.moveTo(-0.65, 0.2);
+        ctx.bezierCurveTo(-0.35, -0.5, 0.35, 0.5, 0.65, -0.2);
+        ctx.stroke();
+      },
+    };
+
+    function drawIcon(ctx, label, cx, cy, radius, colorHex) {
+      const fn = iconDrawers[label];
+      if (!fn) return;
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.scale(radius, radius);
+      ctx.lineWidth = 0.09;
+      ctx.strokeStyle = colorHex;
+      ctx.fillStyle = colorHex;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      fn(ctx);
+      ctx.restore();
+    }
+
     function makeTagSprite(label, colorHex) {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      const scaleFactor = 4; // crisp text
-      ctx.font = `600 ${20 * scaleFactor}px "JetBrains Mono", monospace`;
+      const sf = 6; // supersample for crisp edges
+      const fontPx = 20 * sf;
+      ctx.font = `600 ${fontPx}px "JetBrains Mono", monospace`;
       const textWidth = ctx.measureText(label).width;
-      const padX = 22 * scaleFactor, padY = 14 * scaleFactor;
-      canvas.width = textWidth + padX * 2;
-      canvas.height = 20 * scaleFactor + padY * 2;
 
-      ctx.font = `600 ${20 * scaleFactor}px "JetBrains Mono", monospace`;
-      const r = 14 * scaleFactor;
-      const w = canvas.width, h = canvas.height;
+      const iconSize = 34 * sf;
+      const padX = 20 * sf, padY = 14 * sf, gap = 12 * sf;
+      canvas.width = iconSize + gap + textWidth + padX * 2;
+      canvas.height = Math.max(iconSize, fontPx) + padY * 2;
+
+      const w = canvas.width, h = canvas.height, r = h / 2;
       ctx.beginPath();
       ctx.moveTo(r, 0);
       ctx.arcTo(w, 0, w, h, r);
@@ -141,23 +232,27 @@
       ctx.arcTo(0, h, 0, 0, r);
       ctx.arcTo(0, 0, w, 0, r);
       ctx.closePath();
-      ctx.fillStyle = 'rgba(13,17,23,0.55)';
+      ctx.fillStyle = 'rgba(13,17,23,0.6)';
       ctx.fill();
-      ctx.lineWidth = 3 * scaleFactor;
+      ctx.lineWidth = 3 * sf;
       ctx.strokeStyle = colorHex;
       ctx.stroke();
 
+      drawIcon(ctx, label, padX + iconSize / 2, h / 2, iconSize / 2 * 0.7, colorHex);
+
+      ctx.font = `600 ${fontPx}px "JetBrains Mono", monospace`;
       ctx.fillStyle = colorHex;
-      ctx.textAlign = 'center';
+      ctx.textAlign = 'left';
       ctx.textBaseline = 'middle';
-      ctx.fillText(label, w / 2, h / 2 + 2 * scaleFactor);
+      ctx.fillText(label, padX + iconSize + gap, h / 2 + 2 * sf);
 
       const texture = new THREE.CanvasTexture(canvas);
       texture.minFilter = THREE.LinearFilter;
-      const mat = new THREE.SpriteMaterial({ map: texture, transparent: true, opacity: 0.85 });
+      texture.anisotropy = 4;
+      const mat = new THREE.SpriteMaterial({ map: texture, transparent: true, opacity: 0.92 });
       const sprite = new THREE.Sprite(mat);
       const aspect = canvas.width / canvas.height;
-      const baseHeight = 15;
+      const baseHeight = 17;
       sprite.scale.set(baseHeight * aspect, baseHeight, 1);
       return sprite;
     }
@@ -171,7 +266,10 @@
       );
       sprite.userData.driftSpeed = 0.04 + Math.random() * 0.06;
       sprite.userData.driftOffset = Math.random() * Math.PI * 2;
+      sprite.userData.bobSpeed = 0.03 + Math.random() * 0.05;
+      sprite.userData.bobOffset = Math.random() * Math.PI * 2;
       sprite.userData.baseY = sprite.position.y;
+      sprite.userData.baseX = sprite.position.x;
       scene.add(sprite);
       containers.push(sprite);
     });
@@ -247,8 +345,9 @@
 
     // Drifting containers: slow tumble + gentle float
     containers.forEach((tag) => {
-      tag.position.y = tag.userData.baseY + Math.sin(elapsed * tag.userData.driftSpeed + tag.userData.driftOffset) * 14;
-      tag.material.rotation = Math.sin(elapsed * tag.userData.driftSpeed * 0.6 + tag.userData.driftOffset) * 0.08;
+      tag.position.y = tag.userData.baseY + Math.sin(elapsed * tag.userData.driftSpeed + tag.userData.driftOffset) * 16;
+      tag.position.x = tag.userData.baseX + Math.sin(elapsed * tag.userData.bobSpeed + tag.userData.bobOffset) * 12;
+      tag.material.rotation = Math.sin(elapsed * tag.userData.driftSpeed * 0.6 + tag.userData.driftOffset) * 0.1;
     });
 
     scatterPoints.rotation.y += 0.0002;

@@ -108,29 +108,73 @@
     pulseB = new THREE.Mesh(pulseGeom, new THREE.MeshBasicMaterial({ color: 0x8c86f0, transparent: true, opacity: 0.9 }));
     loopGroup.add(pulseA, pulseB);
 
-    // --- Drifting wireframe "containers" (Docker crates) around the scene ---
-    const containerGeom = new THREE.BoxGeometry(10, 10, 10);
-    const containerColors = [0x2dd4bf, 0x8c86f0, 0xf0a93e];
-    for (let i = 0; i < 9; i++) {
-      const edges = new THREE.EdgesGeometry(containerGeom);
-      const mat = new THREE.LineBasicMaterial({
-        color: containerColors[i % containerColors.length],
-        transparent: true,
-        opacity: 0.32,
-      });
-      const box = new THREE.LineSegments(edges, mat);
-      box.position.set(
+    // --- Drifting DevOps tool-name tags (git, docker, terraform, aws...) ---
+    const toolTags = [
+      { label: 'git', color: '#f0a93e' },
+      { label: 'docker', color: '#2dd4bf' },
+      { label: 'k8s', color: '#8c86f0' },
+      { label: 'terraform', color: '#8c86f0' },
+      { label: 'aws', color: '#f0a93e' },
+      { label: 'jenkins', color: '#2dd4bf' },
+      { label: 'ansible', color: '#f0a93e' },
+      { label: 'linux', color: '#8c86f0' },
+      { label: 'nginx', color: '#2dd4bf' },
+    ];
+
+    function makeTagSprite(label, colorHex) {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const scaleFactor = 4; // crisp text
+      ctx.font = `600 ${20 * scaleFactor}px "JetBrains Mono", monospace`;
+      const textWidth = ctx.measureText(label).width;
+      const padX = 22 * scaleFactor, padY = 14 * scaleFactor;
+      canvas.width = textWidth + padX * 2;
+      canvas.height = 20 * scaleFactor + padY * 2;
+
+      ctx.font = `600 ${20 * scaleFactor}px "JetBrains Mono", monospace`;
+      const r = 14 * scaleFactor;
+      const w = canvas.width, h = canvas.height;
+      ctx.beginPath();
+      ctx.moveTo(r, 0);
+      ctx.arcTo(w, 0, w, h, r);
+      ctx.arcTo(w, h, 0, h, r);
+      ctx.arcTo(0, h, 0, 0, r);
+      ctx.arcTo(0, 0, w, 0, r);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(13,17,23,0.55)';
+      ctx.fill();
+      ctx.lineWidth = 3 * scaleFactor;
+      ctx.strokeStyle = colorHex;
+      ctx.stroke();
+
+      ctx.fillStyle = colorHex;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(label, w / 2, h / 2 + 2 * scaleFactor);
+
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.minFilter = THREE.LinearFilter;
+      const mat = new THREE.SpriteMaterial({ map: texture, transparent: true, opacity: 0.85 });
+      const sprite = new THREE.Sprite(mat);
+      const aspect = canvas.width / canvas.height;
+      const baseHeight = 15;
+      sprite.scale.set(baseHeight * aspect, baseHeight, 1);
+      return sprite;
+    }
+
+    toolTags.forEach((tool) => {
+      const sprite = makeTagSprite(tool.label, tool.color);
+      sprite.position.set(
         (Math.random() - 0.5) * 640,
         (Math.random() - 0.5) * 380,
-        (Math.random() - 0.5) * 300 - 120
+        (Math.random() - 0.5) * 260 - 100
       );
-      box.userData.rotSpeed = 0.05 + Math.random() * 0.1;
-      box.userData.driftSpeed = 0.04 + Math.random() * 0.06;
-      box.userData.driftOffset = Math.random() * Math.PI * 2;
-      box.userData.baseY = box.position.y;
-      scene.add(box);
-      containers.push(box);
-    }
+      sprite.userData.driftSpeed = 0.04 + Math.random() * 0.06;
+      sprite.userData.driftOffset = Math.random() * Math.PI * 2;
+      sprite.userData.baseY = sprite.position.y;
+      scene.add(sprite);
+      containers.push(sprite);
+    });
 
     // --- Faint ambient scatter for depth ---
     const SCATTER_COUNT = 90;
@@ -202,10 +246,9 @@
     pulseB.position.copy(tmpPos);
 
     // Drifting containers: slow tumble + gentle float
-    containers.forEach((box) => {
-      box.rotation.x += 0.003 * box.userData.rotSpeed * 10;
-      box.rotation.y += 0.004 * box.userData.rotSpeed * 10;
-      box.position.y = box.userData.baseY + Math.sin(elapsed * box.userData.driftSpeed + box.userData.driftOffset) * 14;
+    containers.forEach((tag) => {
+      tag.position.y = tag.userData.baseY + Math.sin(elapsed * tag.userData.driftSpeed + tag.userData.driftOffset) * 14;
+      tag.material.rotation = Math.sin(elapsed * tag.userData.driftSpeed * 0.6 + tag.userData.driftOffset) * 0.08;
     });
 
     scatterPoints.rotation.y += 0.0002;

@@ -29,6 +29,20 @@ document.addEventListener('DOMContentLoaded', () => {
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
+  /* ---------- Back to top ---------- */
+  const backToTop = document.getElementById('backToTop');
+  if (backToTop) {
+    const toggleBackToTop = () => {
+      if (window.scrollY > 700) backToTop.classList.add('visible');
+      else backToTop.classList.remove('visible');
+    };
+    toggleBackToTop();
+    window.addEventListener('scroll', toggleBackToTop, { passive: true });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
   /* ---------- Nav: mobile toggle ---------- */
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.querySelector('.nav-links');
@@ -78,114 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(type, deleting ? 24 : 48);
     };
     type();
-  }
-
-  /* ---------- Network SVG (ambient nodes + lines) ---------- */
-  const svg = document.getElementById('networkSvg');
-  if (svg && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const NS = 'http://www.w3.org/2000/svg';
-    const W = 1440, H = 900;
-    const NODE_COUNT = 26;
-    const nodes = [];
-
-    for (let i = 0; i < NODE_COUNT; i++) {
-      nodes.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        vx: (Math.random() - 0.5) * 0.15,
-        vy: (Math.random() - 0.5) * 0.15,
-      });
-    }
-
-    const linesGroup = document.createElementNS(NS, 'g');
-    const dotsGroup = document.createElementNS(NS, 'g');
-    linesGroup.setAttribute('stroke', 'var(--cyan, #4fd1ff)');
-    linesGroup.setAttribute('stroke-opacity', '0.14');
-    dotsGroup.setAttribute('fill', 'var(--cyan, #4fd1ff)');
-    dotsGroup.setAttribute('fill-opacity', '0.5');
-    svg.appendChild(linesGroup);
-    svg.appendChild(dotsGroup);
-
-    const dotEls = nodes.map(() => {
-      const c = document.createElementNS(NS, 'circle');
-      c.setAttribute('r', '1.6');
-      dotsGroup.appendChild(c);
-      return c;
-    });
-
-    const MAX_DIST = 170;
-
-    const render = () => {
-      // update positions
-      nodes.forEach(n => {
-        n.x += n.vx; n.y += n.vy;
-        if (n.x < 0 || n.x > W) n.vx *= -1;
-        if (n.y < 0 || n.y > H) n.vy *= -1;
-      });
-
-      // update dots
-      nodes.forEach((n, i) => {
-        dotEls[i].setAttribute('cx', n.x.toFixed(1));
-        dotEls[i].setAttribute('cy', n.y.toFixed(1));
-      });
-
-      // rebuild lines (only nearby pairs)
-      let linesHTML = '';
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const a = nodes[i], b = nodes[j];
-          const dx = a.x - b.x, dy = a.y - b.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < MAX_DIST) {
-            const op = (1 - dist / MAX_DIST) * 0.5;
-            linesHTML += `<line x1="${a.x.toFixed(1)}" y1="${a.y.toFixed(1)}" x2="${b.x.toFixed(1)}" y2="${b.y.toFixed(1)}" stroke-opacity="${op.toFixed(2)}" />`;
-          }
-        }
-      }
-      linesGroup.innerHTML = linesHTML;
-
-      requestAnimationFrame(render);
-    };
-    requestAnimationFrame(render);
-  }
-
-  /* ---------- Count-up stats (365+, 40+, 15+) on scroll into view ---------- */
-  const countEls = document.querySelectorAll('.metric-value[data-count-to]');
-  if (countEls.length) {
-    const animateCount = (el) => {
-      const target = parseInt(el.getAttribute('data-count-to'), 10) || 0;
-      const suffix = el.getAttribute('data-suffix') || '';
-      const duration = 1400;
-      const startTime = performance.now();
-      const easeOutQuad = (t) => 1 - (1 - t) * (1 - t);
-
-      const step = (now) => {
-        const progress = Math.min(1, (now - startTime) / duration);
-        const eased = easeOutQuad(progress);
-        const value = Math.round(eased * target);
-        el.textContent = value + (progress >= 1 ? suffix : '');
-        if (progress < 1) requestAnimationFrame(step);
-        else el.textContent = target + suffix;
-      };
-      requestAnimationFrame(step);
-    };
-
-    if ('IntersectionObserver' in window) {
-      const countIo = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            animateCount(entry.target);
-            countIo.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.4 });
-      countEls.forEach(el => countIo.observe(el));
-    } else {
-      countEls.forEach(el => {
-        const target = parseInt(el.getAttribute('data-count-to'), 10) || 0;
-        el.textContent = target + (el.getAttribute('data-suffix') || '');
-      });
-    }
   }
 
   /* ---------- Reveal-on-scroll for sections/cards ---------- */

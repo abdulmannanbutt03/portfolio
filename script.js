@@ -149,6 +149,45 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(render);
   }
 
+  /* ---------- Count-up stats (365+, 40+, 15+) on scroll into view ---------- */
+  const countEls = document.querySelectorAll('.metric-value[data-count-to]');
+  if (countEls.length) {
+    const animateCount = (el) => {
+      const target = parseInt(el.getAttribute('data-count-to'), 10) || 0;
+      const suffix = el.getAttribute('data-suffix') || '';
+      const duration = 1400;
+      const startTime = performance.now();
+      const easeOutQuad = (t) => 1 - (1 - t) * (1 - t);
+
+      const step = (now) => {
+        const progress = Math.min(1, (now - startTime) / duration);
+        const eased = easeOutQuad(progress);
+        const value = Math.round(eased * target);
+        el.textContent = value + (progress >= 1 ? suffix : '');
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = target + suffix;
+      };
+      requestAnimationFrame(step);
+    };
+
+    if ('IntersectionObserver' in window) {
+      const countIo = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animateCount(entry.target);
+            countIo.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.4 });
+      countEls.forEach(el => countIo.observe(el));
+    } else {
+      countEls.forEach(el => {
+        const target = parseInt(el.getAttribute('data-count-to'), 10) || 0;
+        el.textContent = target + (el.getAttribute('data-suffix') || '');
+      });
+    }
+  }
+
   /* ---------- Reveal-on-scroll for sections/cards ---------- */
   const revealTargets = document.querySelectorAll('.timeline-card, .project-card, .skill-group');
   if ('IntersectionObserver' in window && revealTargets.length) {

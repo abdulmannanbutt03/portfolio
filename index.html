@@ -153,7 +153,7 @@
       </div>
       <div class="about-content">
         <h2 class="h2">Turning fragile deployments into <span class="highlight">boring, reliable ones.</span></h2>
-        <p class="body-text">I'm working as a <strong>DevOps Engineer at 360XpertSolutions</strong>, where I work across the full stack of cloud infrastructure — provisioning AWS environments with Terraform, orchestrating workloads on Kubernetes, and wiring up CI/CD pipelines that actually catch problems before they ship. I also take weekly sessions as <strong>DevOps Faculty at Techzone Learning</strong>, which keeps me sharp on explaining the "why" behind every tool, not just the "how."</p>
+        <p class="body-text">I'm currently a <strong>DevOps Developer Faculty at Techzone Learning</strong>, designing and delivering structured DevOps training — CI/CD, containerization, version control, and core cloud fundamentals — while mentoring students through the gap between theory and real-world implementation. Before this, I worked as a <strong>DevOps Engineer at 360XpertSolutions</strong> (Feb–Jul 2026), where I provisioned AWS environments with Terraform, orchestrated workloads on Kubernetes, and built CI/CD pipelines that actually caught problems before they shipped.</p>
         <p class="body-text">I'm in my 7th semester of a Bachelor's in Software Engineering at Bahria University, Karachi — balancing coursework with real infrastructure work, because the fastest way I've found to learn DevOps is to break things in production-like environments and fix them properly.</p>
 
         <div class="about-facts">
@@ -192,10 +192,31 @@
         <div class="timeline-card">
           <div class="timeline-card-top">
             <div>
+              <h3 class="timeline-role">DevOps Developer Faculty</h3>
+              <p class="timeline-org">Techzone Learning · Karachi, Pakistan</p>
+            </div>
+            <span class="timeline-date">Jul 2026 — Present</span>
+          </div>
+          <ul class="timeline-list">
+            <li>Design and deliver weekly DevOps training sessions covering CI/CD, containerization, version control, core AWS, Linux and Bash scripting.</li>
+            <li>Mentor students on practical, industry-relevant DevOps workflows beyond textbook theory.</li>
+            <li>Bridge the gap between theoretical concepts and real-world implementation for early-career engineers.</li>
+          </ul>
+          <div class="timeline-tags">
+            <span class="chip">Mentoring</span><span class="chip">DevOps Training</span><span class="chip">CI/CD</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-marker"><span class="commit-dot"></span></div>
+        <div class="timeline-card">
+          <div class="timeline-card-top">
+            <div>
               <h3 class="timeline-role">DevOps Engineer</h3>
               <p class="timeline-org">360XpertSolutions · Karachi, Pakistan</p>
             </div>
-            <span class="timeline-date">Feb 2026 — Present</span>
+            <span class="timeline-date">Feb 2026 — Jul 2026</span>
           </div>
           <ul class="timeline-list">
             <li>Architected AWS VPC environments — public/private subnets, NAT gateways, peering, endpoints, and PrivateLink.</li>
@@ -207,27 +228,10 @@
           <div class="timeline-tags">
             <span class="chip">AWS</span><span class="chip">Terraform</span><span class="chip">Kubernetes</span><span class="chip">ArgoCD</span><span class="chip">Jenkins</span>
           </div>
-        </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-marker"><span class="commit-dot commit-dot-active"></span></div>
-        <div class="timeline-card">
-          <div class="timeline-card-top">
-            <div>
-              <h3 class="timeline-role">DevOps Faculty</h3>
-              <p class="timeline-org">Techzone Learning · Karachi, Pakistan</p>
-            </div>
-            <span class="timeline-date">Jul 2026 — Present</span>
-          </div>
-          <ul class="timeline-list">
-            <li>Design and deliver weekly DevOps training sessions covering CI/CD, containerization and version control.</li>
-            <li>Mentor students on practical, industry-relevant DevOps workflows beyond textbook theory.</li>
-            <li>Bridge the gap between theoretical concepts and real-world implementation for early-career engineers.</li>
-          </ul>
-          <div class="timeline-tags">
-            <span class="chip">Mentoring</span><span class="chip">DevOps Training</span><span class="chip">CI/CD</span>
-          </div>
+          <a href="certificate-360xpert.jpg" target="_blank" rel="noopener" class="timeline-cert-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M9 13.5 7 22l5-3 5 3-2-8.5"/></svg>
+            View Completion Certificate
+          </a>
         </div>
       </div>
 
@@ -282,6 +286,27 @@
         <div class="project-links">
           <a href="https://pern-my.sharepoint.com/:v:/g/personal/02-131232-099_student_bahria_edu_pk/IQB5g2TBzLezS5ColMuh-Oa_AYeL9MxJ3EvjNbxXgUJtUNc?e=8ENN9o" target="_blank" rel="noopener" class="project-link">Live Demo <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg></a>
           <a href="https://github.com/abdulmannanbutt03/task-manager-devops" target="_blank" rel="noopener" class="project-link">View GitHub <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg></a>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-top">
+          <span class="mono-label accent-cyan">PERSONAL PROJECT</span>
+          <span class="project-status"><i class="dot dot-green"></i>No-login SaaS</span>
+        </div>
+        <h3 class="project-title">Orbit — Serverless Uptime Monitor</h3>
+        <p class="project-desc">Give it a name, an email, and a URL — Orbit takes it from there. A scheduled job pings every registered site on a fixed interval, logging status code and response time to Postgres. Three consecutive failed checks trigger an email alert, with a 30-minute cooldown so a single incident doesn't spam your inbox.</p>
+        <ul class="project-highlights">
+          <li>No accounts, no passwords — each site gets a private, tokenized dashboard</li>
+          <li>Live uptime %, response-time trend chart, and auto-generated improvement suggestions</li>
+          <li>3-strike email alerting via Nodemailer with cooldown logic to prevent spam</li>
+        </ul>
+        <div class="project-tags">
+          <span class="chip">Node.js</span><span class="chip">Express</span><span class="chip">PostgreSQL</span><span class="chip">Nodemailer</span><span class="chip">Serverless</span>
+        </div>
+        <div class="project-links">
+          <a href="https://pern-my.sharepoint.com/:v:/g/personal/02-131232-099_student_bahria_edu_pk/IQCbqf2HW9gLRYOZqbBqkZxKAQt2MWsRYIyWqunrWwIMpMs" target="_blank" rel="noopener" class="project-link">Live Demo <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg></a>
+          <a href="https://github.com/abdulmannanbutt03/site-health-monitor" target="_blank" rel="noopener" class="project-link">View GitHub <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg></a>
         </div>
       </article>
 

@@ -383,6 +383,13 @@ p{ margin: 0; }
   content: ''; position: absolute; left: 0; top: 8px; width: 6px; height: 1px; background: var(--cyan);
 }
 .timeline-tags{ display: flex; flex-wrap: wrap; gap: 8px; }
+.timeline-cert-link{
+  display: inline-flex; align-items: center; gap: 7px;
+  margin-top: 16px; font-family: var(--font-mono); font-size: 12.5px;
+  color: var(--cyan); border: 1px solid rgba(45,212,191,0.35); border-radius: 8px;
+  padding: 7px 12px; transition: border-color 0.2s ease, background 0.2s ease;
+}
+.timeline-cert-link:hover{ border-color: var(--cyan); background: rgba(45,212,191,0.06); }
 
 /* ============================================
    CHIPS

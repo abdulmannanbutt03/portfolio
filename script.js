@@ -16,6 +16,46 @@ document.addEventListener('DOMContentLoaded', () => {
     link.setAttribute('href', `${base}?v=${Date.now()}`);
   });
 
+  /* ---------- About photo slideshow ---------- */
+  const slideshow = document.getElementById('aboutSlideshow');
+  const dotsWrap = document.getElementById('aboutDots');
+  if (slideshow && dotsWrap) {
+    const slides = Array.from(slideshow.querySelectorAll('.slide'));
+    let current = 0;
+    let timer = null;
+
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'slideshow-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', `Show photo ${i + 1}`);
+      dot.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(dot);
+    });
+    const dots = Array.from(dotsWrap.querySelectorAll('.slideshow-dot'));
+
+    function goTo(index) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = index;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+      restartTimer();
+    }
+
+    function next() {
+      goTo((current + 1) % slides.length);
+    }
+
+    function restartTimer() {
+      if (timer) clearInterval(timer);
+      timer = setInterval(next, 3000);
+    }
+
+    if (slides.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      restartTimer();
+    }
+  }
+
   /* ---------- Footer year ---------- */
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();

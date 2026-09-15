@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function restartTimer() {
       if (timer) clearInterval(timer);
-      timer = setInterval(next, 3000);
+      timer = setInterval(next, 2000);
     }
 
     if (slides.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
